@@ -1,6 +1,6 @@
 # Prerequisites:
-- Docker Desktop
-- Airflow
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Airflow](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html)
 
 Welcome to this repository, where I've embarked on a journey to explore Apache Airflow. To get started, ensure you have Docker Desktop and Airflow installed by following the provided links.
 
