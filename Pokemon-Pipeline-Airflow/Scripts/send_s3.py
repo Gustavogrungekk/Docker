@@ -6,12 +6,14 @@
 #===================================================================================================================
 from airflow.hooks.S3_hook import S3Hook
 
-def send_to_s3():
+def send_to_s3(bucket_name=str, local_file_path=str, s3_key=str):
+    '''
+    bucket_name: Name of the bucket we'll be sending to.
+    local_file_path: Location to the file you want to upload to s3.
+    s3_key: Prefix location where the file will be stored in of the bucket.
+    '''
 
     aws_conn_id = 'AWS_s3'
-    bucket_name = 'gustavogrungekk'
-    s3_key = 'Datasets/pokemon_dataset.csv'
-    local_file_path = '/opt/airflow/datasets/refined/pokemon_dataset.csv' 
 
     # Initialize S3Hook
     s3_hook = S3Hook(aws_conn_id)
@@ -21,4 +23,16 @@ def send_to_s3():
 
     return 'File successfully sent to S3'
 
-send_to_s3()
+# S3 Raw
+send_to_s3(
+        bucket_name = 'bucket',
+        s3_key = 'Datasets/Pokemon/Bronze/pokemon_dataset.csv',
+        local_file_path = '/opt/airflow/datasets/raw/raw_pokemon_dataset.csv'
+            )
+
+# S3 Refined
+send_to_s3(
+        bucket_name = 'bucket',
+        s3_key = 'Datasets/Pokemon/Silver/pokemon_dataset.csv',
+        local_file_path = '/opt/airflow/datasets/refined/pokemon_dataset.csv'
+            )
