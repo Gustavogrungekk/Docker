@@ -48,4 +48,4 @@ def get_pokemons(n_pokemon=None):
     return pokemons
 
 path = '/opt/airflow/datasets/raw/'
-dataframe = pd.DataFrame(get_poke(100)).to_csv(f'{path}raw_pokemon_dataset.csv', index=False, encoding='utf-8')
+dataframe = pd.DataFrame(get_pokemons()).to_csv(f'{path}raw_pokemon_dataset.csv', index=False, encoding='utf-8')
