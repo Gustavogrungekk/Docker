@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 from time import sleep
 
-def catch_them(n_pokemon=None):
+def get_pokemons(n_pokemon=None):
 
     '''
     n_poke: The amount of Pokemons that will be fetched if none will fetch all
@@ -22,19 +22,22 @@ def catch_them(n_pokemon=None):
         if status_code == 200:
             pokemons = []
             for pokemon in range(1, n_pokemon+1):
-                end = f'https://pokeapi.co/api/v2/pokemon/{pokemon}/'
-                response = requests.get(end)
-                data = json.loads(response.content)
-                pokemons.append(({
-                                'name': data['name'],
-                                'type': [x['type']['name'] for x in data['types']],
-                                'weight_kg': round(data['weight'] / 10),
-                                'heigth_cm': data['height'] * 100 / 10,
-                                'stats': {x['stat']['name']: x['base_stat'] for x in  data['stats']},
-                                'moves': [move['move']['name'] for move in data['moves']],
-                                'total_moves': len(data['moves']),
-                                'hidden_ability': {x['ability']['name']: x['is_hidden'] for x in  data['abilities']},
-                                }))
+                try:
+                    end = f'https://pokeapi.co/api/v2/pokemon/{pokemon}/'
+                    response = requests.get(end)
+                    data = json.loads(response.content)
+                    pokemons.append(({
+                                    'name': data['name'],
+                                    'type': [x['type']['name'] for x in data['types']],
+                                    'weight_kg': round(data['weight'] / 10),
+                                    'heigth_cm': data['height'] * 100 / 10,
+                                    'stats': {x['stat']['name']: x['base_stat'] for x in  data['stats']},
+                                    'moves': [move['move']['name'] for move in data['moves']],
+                                    'total_moves': len(data['moves']),
+                                    'hidden_ability': {x['ability']['name']: x['is_hidden'] for x in  data['abilities']},
+                                    }))
+                except:
+                    pass
             break
         elif status_code in (502, 503, 504):
             print(f'Trying again status_code: {status_code} message: {response.text}')
@@ -45,4 +48,4 @@ def catch_them(n_pokemon=None):
     return pokemons
 
 path = '/opt/airflow/datasets/raw/'
-dataframe = pd.DataFrame(catch_them(100)).to_csv(f'{path}raw_pokemon_dataset.csv', index=False, encoding='utf-8')
+dataframe = pd.DataFrame(get_poke(100)).to_csv(f'{path}raw_pokemon_dataset.csv', index=False, encoding='utf-8')
