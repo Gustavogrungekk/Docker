@@ -4,7 +4,6 @@
 # Language: Python
 # Date 26/12/2023
 #===================================================================================================================
-
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
@@ -91,6 +90,9 @@ delete = BashOperator(
 notification = BashOperator(
     task_id = 'notifying_end',
     bash_command = 'echo Hey I am all done for now! Great job team!',
-    dag = dag)
+    dag = dag)  
 
-[mkdir_raw, mkdir_refined ,copy] >> ingest >> etl_step >> [notification, send_s3] >> delete
+[
+[mkdir_raw, mkdir_refined ,copy] >>
+ingest >> etl_step >> [notification, send_s3] >> delete
+]
